@@ -1,4 +1,4 @@
-# University Intership
+# University Internship
 
 # Specification
 
