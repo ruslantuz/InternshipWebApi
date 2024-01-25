@@ -2,8 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AssemblyName>University.Group.Models</AssemblyName>
-    <RootNamespace>University.Group.Models</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\University.Group.Models\University.Group.Models.csproj" />
+  </ItemGroup>
 
 </Project>

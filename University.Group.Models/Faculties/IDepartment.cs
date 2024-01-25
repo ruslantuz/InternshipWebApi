@@ -3,7 +3,7 @@ using University.Group.Models.Groups;
 
 namespace University.Group.Models.Faculties
 {
-    public interface IFaculty
+    public interface IDepartment
     {
         IEnumerable<IGroup> GetGroups();
     }

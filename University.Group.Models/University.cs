@@ -1,16 +1,24 @@
-﻿using University.Group.Models.Faculties;
+﻿using System.Collections.Generic;
+using University.Group.Models.Faculties;
 
 namespace University.Group.Models
 {
     public sealed class University
     {
-        public Faculty1 Faculty1 { get; set; }
+        public string Name { get; set; }
+        public string Director { get; set; }
+        public string ContactPhone { get; set; }
+        public string Email { get; set; }
 
-        public Faculty2 Faculty2 { get; set; }
+        public University(string universityName)
+        {
+            Name = universityName;
+        }
+        public List<IDepartment> departments = new List<IDepartment>();
 
         public override string ToString()
         {
-            return "University Name";
+            return Name;
         }
     }
 }
