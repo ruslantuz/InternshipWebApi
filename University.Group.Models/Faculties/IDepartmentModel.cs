@@ -3,8 +3,8 @@ using University.Group.Models.Groups;
 
 namespace University.Group.Models.Faculties
 {
-    public interface IDepartment
+    public interface IDepartmentModel
     {
-        IEnumerable<IGroup> GetGroups();
+        //IEnumerable<IGroupModel> GetGroups();
     }
 }

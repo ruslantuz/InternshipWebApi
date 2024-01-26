@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace University.Group.Repositories
 {
     public interface IRepository<T>
     {
-        void Add(T model);
-        void Update(T model);
-        void Delete(T model);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
         T Get(int id);
+        IEnumerable<T> GetAll();
     }
 }

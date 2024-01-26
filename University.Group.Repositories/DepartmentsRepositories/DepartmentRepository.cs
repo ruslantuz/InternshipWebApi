@@ -5,25 +5,31 @@ using University.Group.Models.Faculties;
 
 namespace University.Group.Repositories.DepartmentsRepositories
 {
-    class DepartmentRepository : IRepository<Department>
+    public class DepartmentRepository : IRepository<DepartmentEntity>
     {
+        //add db connection
+        public void Add(DepartmentEntity entity)
+        {
+            // insert to db
+            throw new NotImplementedException();
+        }
 
-        public void Add(Department model)
+        public void Delete(DepartmentEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Department model)
+        public DepartmentEntity Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Department Get(int id)
+        public IEnumerable<DepartmentEntity> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Department model)
+        public void Update(DepartmentEntity entity)
         {
             throw new NotImplementedException();
         }

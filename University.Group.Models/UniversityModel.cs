@@ -3,18 +3,22 @@ using University.Group.Models.Faculties;
 
 namespace University.Group.Models
 {
-    public sealed class University
+    public sealed class UniversityModel
     {
         public string Name { get; set; }
         public string Director { get; set; }
         public string ContactPhone { get; set; }
         public string Email { get; set; }
 
-        public University(string universityName)
+        public List<IDepartmentModel> Departments = new List<IDepartmentModel>();
+        
+        public UniversityModel(string universityName, string director, string contactPhone, string email)
         {
             Name = universityName;
+            Director = director;
+            ContactPhone = contactPhone;
+            Email = email;
         }
-        public List<IDepartment> departments = new List<IDepartment>();
 
         public override string ToString()
         {

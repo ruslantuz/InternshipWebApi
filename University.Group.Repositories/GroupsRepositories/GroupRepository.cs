@@ -5,24 +5,30 @@ using University.Group.Models.Groups;
 
 namespace University.Group.Repositories.GroupsRepositories
 {
-    class GroupRepository : IRepository<Models.Groups.Group>
+    public class GroupRepository : IRepository<GroupEntity>
     {
-        public void Add(Models.Groups.Group model)
+
+        public void Add(GroupEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Models.Groups.Group model)
+        public void Delete(GroupEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public Models.Groups.Group Get(int id)
+        public GroupEntity Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Models.Groups.Group model)
+        public IEnumerable<GroupEntity> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(GroupEntity entity)
         {
             throw new NotImplementedException();
         }
