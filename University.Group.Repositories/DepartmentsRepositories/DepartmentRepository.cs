@@ -1,17 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using University.Group.Models.Faculties;
+
 
 namespace University.Group.Repositories.DepartmentsRepositories
 {
     public class DepartmentRepository : IRepository<DepartmentEntity>
     {
-        //add db connection
+        private SqlConnection connection;
+        private string connectionString;
+
+        public DepartmentRepository()
+        {
+            //connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True");
+            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
+        }
+
         public void Add(DepartmentEntity entity)
         {
-            // insert to db
-            throw new NotImplementedException();
+            string commandText = "INSERT INTO Department (Name, Head, Phone, Email) VALUES(@name, @head, @phone, @email)";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@head", entity.Head);
+                command.Parameters.AddWithValue("@phone", entity.Phone);
+                command.Parameters.AddWithValue("@email", entity.Email);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch {}
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public void Delete(DepartmentEntity entity)

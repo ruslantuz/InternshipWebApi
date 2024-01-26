@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\University.Group.Models\University.Group.Models.csproj" />
+	<PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
 
 </Project>

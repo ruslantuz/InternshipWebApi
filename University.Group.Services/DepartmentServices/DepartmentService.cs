@@ -36,7 +36,7 @@ namespace University.Group.Services.DepartmentServices
 
         }
 
-        public void addDepartment(DepartmentModel department)
+        public void AddDepartment(DepartmentModel department)
         {
             DepartmentEntity departmentEntity = mapper.Map<DepartmentEntity>(department);
             _departmentRepository.Add(departmentEntity);

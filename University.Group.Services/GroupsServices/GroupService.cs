@@ -17,7 +17,7 @@ namespace University.Group.Services.GroupsServices
         {
             _groupRepository = groupRepository;
         }
-        public void addGroup(GroupModel group, DepartmentModel department)
+        public void AddGroup(GroupModel group, DepartmentModel department)
         {
             GroupEntity groupEntity = mapper.Map<GroupEntity>(group);
             groupEntity.DepartmentId = department.Id; 
