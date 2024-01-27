@@ -12,7 +12,8 @@ namespace University.Group.Models.Faculties
         public string Phone { get; set; }
         public string Email { get; set; }
         //public int UniversityId { get; set; }
-        public DepartmentEntity(int id, string name, string head, string phone, string email, int universityId)
+        public DepartmentEntity(int id, string name, string head, string phone, string email //, int universityId
+                                )
         {
             Id = id;
             Name = name;

@@ -16,7 +16,10 @@ namespace University.Group.Services.DepartmentServices
         private readonly DepartmentRepository _departmentRepository;
         private readonly GroupRepository _groupRepository;
         private IMapper mapper; // move to startup
-
+        public DepartmentService()
+        {
+                
+        }
         public DepartmentService(DepartmentRepository departmentRepository)
         {
             _departmentRepository = departmentRepository;

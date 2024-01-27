@@ -12,7 +12,10 @@ namespace University.Group.Services.GroupsServices
     {
         private readonly GroupRepository _groupRepository;
         private IMapper mapper; // move to startup
-
+        public GroupService()
+        {
+                
+        }
         public GroupService(GroupRepository groupRepository)
         {
             _groupRepository = groupRepository;
