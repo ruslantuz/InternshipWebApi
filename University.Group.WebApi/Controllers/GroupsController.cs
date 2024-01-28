@@ -3,31 +3,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using University.Group.Models;
 using University.Group.Models.Faculties;
 using University.Group.Models.Groups;
 using University.Group.Services;
 
 namespace University.Group.WebApi.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-    public class HomeController : Controller
+    public class GroupsController : Controller
     {
-
         private readonly IService<GroupModel> _groupService;
         private readonly IService<DepartmentModel> _departmentService;
-
-        public HomeController(IService<GroupModel> groupService, IService<DepartmentModel> departmentService)
+        public GroupsController(IService<GroupModel> groupService, IService<DepartmentModel> departmentService)
         {
             _groupService = groupService;
             _departmentService = departmentService;
         }
         public IActionResult Index()
         {
-            UniversityModel college = new UniversityModel("KEP", "Berehovskyi", "3809911111", "@kep.nung.edu.ua");
-            college.Departments = _departmentService.GetAll();
-            return View(college);
+            List<GroupModel> groupList = _groupService.GetAll();
+            return View(groupList);
+        }
+        [HttpGet("{id:int}")]
+        public IActionResult GroupInfo(int id)
+        {
+            GroupModel group = _groupService.Get(id);
+            List<GroupModel> groupList = new List<GroupModel>();
+            groupList.Add(group);
+            return View("~/Views/Groups/Index", group);
         }
     }
 }

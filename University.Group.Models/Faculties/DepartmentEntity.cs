@@ -11,16 +11,17 @@ namespace University.Group.Models.Faculties
         public string Head { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        //public int UniversityId { get; set; }
-        public DepartmentEntity(int id, string name, string head, string phone, string email //, int universityId
-                                )
+        public DepartmentEntity()
+        {
+
+        }
+        public DepartmentEntity(int id, string name, string head, string phone, string email)
         {
             Id = id;
             Name = name;
             Head = head;
             Phone = phone;
             Email = email;
-            //UniversityId = universityId;
         }
     }
 }

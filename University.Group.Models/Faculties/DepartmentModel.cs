@@ -10,10 +10,11 @@ namespace University.Group.Models.Faculties
         public string Head { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-
-        //public List<IGroupModel> Groups = new List<IGroupModel>(); old
         public List<IGroupModel> Groups { get; set; }
+        public DepartmentModel()
+        {
 
+        }
         public DepartmentModel(int id, string name, string head, string phone, string email)
         {
             Id = id;

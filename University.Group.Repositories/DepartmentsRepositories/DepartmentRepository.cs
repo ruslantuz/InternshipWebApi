@@ -15,7 +15,6 @@ namespace University.Group.Repositories.DepartmentsRepositories
 
         public DepartmentRepository()
         {
-            //connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True");
             connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
         }
 
@@ -53,9 +52,31 @@ namespace University.Group.Repositories.DepartmentsRepositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DepartmentEntity> GetAll()
+        public List<DepartmentEntity> GetAll()
         {
-            throw new NotImplementedException();
+            List<DepartmentEntity> departmentEntities = new List<DepartmentEntity>();
+            string commandText = "SELECT * FROM Department";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                try
+                {
+                    command.Connection.Open();
+                    SqlDataReader sReader = command.ExecuteReader();
+                    while (sReader.Read())
+                    {
+                        departmentEntities.Add(new DepartmentEntity(Convert.ToInt32(sReader["Id"]), Convert.ToString(sReader["Name"]),
+                            Convert.ToString(sReader["Head"]), Convert.ToString(sReader["Phone"]), Convert.ToString(sReader["Email"])));
+                    }
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+            return departmentEntities;
         }
 
         public void Update(DepartmentEntity entity)

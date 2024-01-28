@@ -1,0 +1,35 @@
+﻿@model List<DepartmentModel>
+@{
+    ViewBag.Title = "Departments";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Head</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Groups</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DepartmentModel department in @Model)
+        {
+            <tr>
+
+                <td>@department.Id</td>
+                <td>@department.Name</td>
+                <td>@department.Head</td>
+                <td>@department.Phone</td>
+                <td>@department.Email</td>
+                <td>
+                    @foreach (GroupModel group in department.Groups)
+                    {
+                        <p>@group.Name</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,6 +12,10 @@ namespace University.Group.Models.Groups
         public int Year { get; set; }
         public int StudentCount { get; set; }
         public int DepartmentId { get; set; }
+        public GroupEntity()
+        {
+
+        }
         public GroupEntity(int groupId, string groupName, string major, int year, int count, int departmentId)
         {
             Id = groupId;

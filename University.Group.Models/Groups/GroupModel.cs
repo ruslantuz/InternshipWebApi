@@ -11,6 +11,10 @@ namespace University.Group.Models.Groups
         public string MajorSubject { get; set; }
         public int Year { get; set; }
         public int StudentCount { get; set; }
+        public GroupModel()
+        {
+
+        }
         public GroupModel(int groupId, string groupName, string major, int year, int count)
         {
             Id = groupId;

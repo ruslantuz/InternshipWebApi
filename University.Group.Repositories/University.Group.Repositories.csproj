@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\University.Group.Models\University.Group.Models.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" />
 	<PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
 

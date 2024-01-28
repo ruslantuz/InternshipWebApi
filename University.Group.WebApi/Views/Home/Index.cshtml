@@ -1,8 +1,28 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
-    <h1>Index view</h1>
-</body>
-</html>
+﻿@model UniversityModel
+@{
+    ViewBag.Title = "College";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Director</th>
+            <th>ContactPhone</th>
+            <th>Departments</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Name</td>
+            <td>@Model.Director</td>
+            <td>@Model.ContactPhone</td>
+            <td>
+                @foreach (DepartmentModel department in @Model.Departments)
+                {
+                    <p>@department.Name</p>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

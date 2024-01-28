@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,6 +13,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using University.Group.Models.Faculties;
 using University.Group.Models.Groups;
+using University.Group.Repositories;
+using University.Group.Repositories.GroupsRepositories;
 using University.Group.Services;
 using University.Group.Services.DepartmentServices;
 using University.Group.Services.GroupsServices;
@@ -33,8 +36,11 @@ namespace University.Group.WebApi
         {
             services.AddControllers();
             services.AddMvc();
-            services.AddSingleton<IService<GroupModel>, GroupService>();
-            services.AddSingleton<IService<DepartmentModel>, DepartmentService>();
+            services.AddDbContextPool<AppDbContext>
+                (options => options.UseSqlServer(Configuration.GetConnectionString("InternshipDBConnection"), b => b.MigrationsAssembly("University.Group.WebApi")));
+
+            services.AddScoped<IService<GroupModel>, GroupService>();
+            services.AddScoped<IService<DepartmentModel>, DepartmentService>();
 
         }
 
@@ -53,6 +59,7 @@ namespace University.Group.WebApi
             app.UseAuthorization();
 
             app.UseStaticFiles();
+           
 
             app.UseEndpoints(endpoints =>
             {
