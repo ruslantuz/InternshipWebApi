@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using University.Group.Models.Faculties;
 using University.Group.Models.Groups;
 using University.Group.Services;
-using University.Group.WebApi.ViewModels;
 
 namespace University.Group.WebApi.Controllers
 {
