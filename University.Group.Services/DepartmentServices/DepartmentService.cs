@@ -18,13 +18,13 @@ namespace University.Group.Services.DepartmentServices
         private IMapper mapper;
         public DepartmentService(AppDbContext dbContext)
         {
-            _departmentRepository = new DepartmentRepository();
+            _departmentRepository = new DepartmentRepository(dbContext);
             _groupRepository = new GroupRepository(dbContext);
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DepartmentModel, DepartmentEntity>().ReverseMap().ForMember(x => x.Groups, opt => opt.Ignore());
-                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(x => x.DepartmentId, opt => opt.Ignore());
-                cfg.CreateMap<GroupEntity, GroupModel>();
+                cfg.CreateMap<DepartmentModel, DepartmentEntity>().ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups)).ReverseMap();//.ForMember(x => x.Groups, opt => opt.Ignore());
+                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department)).ReverseMap();
+                //cfg.CreateMap<GroupEntity, GroupModel>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department));
 
             });
             // only during development
@@ -39,7 +39,7 @@ namespace University.Group.Services.DepartmentServices
 
         }
 
-        public void AddDepartment(DepartmentModel department)
+        public void Add(DepartmentModel department)
         {
             DepartmentEntity departmentEntity = mapper.Map<DepartmentEntity>(department);
             _departmentRepository.Add(departmentEntity);
@@ -66,13 +66,13 @@ namespace University.Group.Services.DepartmentServices
             //    department.Key.Groups = department.Select(x => mapper.Map<IGroupModel>(x.GroupEntity)).ToList();
             //}
 
-            List<IGroupModel> groupModelList = new List<IGroupModel>();
+            List<GroupModel> groupModelList = new List<GroupModel>();
 
             foreach (DepartmentModel department in departmentList)
             {
                 foreach (GroupEntity group in groupList)
                 {
-                    if (group.DepartmentId == department.Id)
+                    if (group.Department.Id == department.Id)
                     {
                         GroupModel groupModel = mapper.Map<GroupModel>(group);
                         groupModelList.Add(groupModel);

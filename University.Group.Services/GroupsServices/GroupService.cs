@@ -7,6 +7,7 @@ using University.Group.Repositories.GroupsRepositories;
 using University.Group.Models.Faculties;
 using University.Group.Repositories;
 
+
 namespace University.Group.Services.GroupsServices
 {
     public class GroupService : IService<GroupModel>
@@ -18,8 +19,16 @@ namespace University.Group.Services.GroupsServices
             _groupRepository = new GroupRepository(dbContext);
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(x => x.DepartmentId, opt => opt.Ignore());
-                cfg.CreateMap<GroupEntity, GroupModel>();
+                //cfg.CreateMap<List<GroupModel>, ICollection<GroupEntity>>(MemberList.None); 
+                //cfg.CreateMap<ICollection<GroupEntity>, List<GroupModel>>(MemberList.None);
+                //cfg.CreateMap<GroupEntity, IGroupModel>();
+                //cfg.CreateMap<DepartmentEntity, DepartmentModel>().ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups)).ReverseMap();//.ForMember(x => x.Groups, opt => opt.Ignore());
+
+                cfg.CreateMap<DepartmentModel, DepartmentEntity>().ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups)).ReverseMap();//.ForMember(x => x.Groups, opt => opt.Ignore());
+                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department)).ReverseMap();
+                
+                //cfg.CreateMap<GroupEntity, GroupModel>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department));
+
             });
             
             #if DEBUG
@@ -31,12 +40,13 @@ namespace University.Group.Services.GroupsServices
         {
             _groupRepository = groupRepository;
         }
-        public void AddGroup(GroupModel group, DepartmentModel department)
+        public void Add(GroupModel group)//, DepartmentModel department)
         {
             GroupEntity groupEntity = mapper.Map<GroupEntity>(group);
-            groupEntity.DepartmentId = department.Id; 
+            //groupEntity.Department.Id = department.Id; 
             _groupRepository.Add(groupEntity);
         }
+
 
         public GroupModel Get(int id)
         {

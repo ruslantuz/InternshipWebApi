@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using University.Group.Models.Faculties;
 
 namespace University.Group.Models.Groups
 {
@@ -11,6 +12,7 @@ namespace University.Group.Models.Groups
         public string MajorSubject { get; set; }
         public int Year { get; set; }
         public int StudentCount { get; set; }
+        public DepartmentModel Department { get; set; }
         public GroupModel()
         {
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using University.Group.Models.Groups;
 
 namespace University.Group.Models.Faculties
 {
@@ -11,6 +12,8 @@ namespace University.Group.Models.Faculties
         public string Head { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        //public List<GroupEntity> Groups { get; set; }
+        public ICollection<GroupEntity> Groups { get; set; }
         public DepartmentEntity()
         {
 

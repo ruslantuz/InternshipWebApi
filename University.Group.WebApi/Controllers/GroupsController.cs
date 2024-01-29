@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using University.Group.Models.Faculties;
 using University.Group.Models.Groups;
 using University.Group.Services;
+using University.Group.WebApi.ViewModels;
 
 namespace University.Group.WebApi.Controllers
 {
@@ -27,10 +28,24 @@ namespace University.Group.WebApi.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GroupInfo(int id)
         {
-            GroupModel group = _groupService.Get(id);
+            GroupModel group = _groupService.Get(id); //do try catch for invalid id
             List<GroupModel> groupList = new List<GroupModel>();
             groupList.Add(group);
-            return View("~/Views/Groups/Index", group);
+
+            return View("~/Views/Groups/Index.cshtml", groupList);
+        }
+
+        [Route ("create")]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(GroupModel group)
+        {
+            _groupService.Add(group);
+            return RedirectToAction("GroupInfo", group.Id);
         }
     }
 }
