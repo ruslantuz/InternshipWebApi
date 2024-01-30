@@ -17,10 +17,9 @@ namespace University.Group.Models.Groups
         {
 
         }
-        public GroupModel(//int groupId, 
-            string groupName, string major, int year, int count)
+        public GroupModel(int groupId, string groupName, string major, int year, int count)
         {
-           // Id = groupId;
+            Id = groupId;
             Name = groupName;
             MajorSubject = major;
             Year = year;

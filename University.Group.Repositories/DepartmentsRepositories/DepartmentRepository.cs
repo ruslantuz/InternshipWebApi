@@ -11,43 +11,142 @@ namespace University.Group.Repositories.DepartmentsRepositories
 {
     public class DepartmentRepository : IRepository<DepartmentEntity>
     {
-        private readonly AppDbContext context;
-
+        private SqlConnection connection;
+        private string connectionString;
         public DepartmentRepository()
         {
-        }
-        public DepartmentRepository(AppDbContext context)
-        {
-            this.context = context;
+            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
+
         }
 
         public void Add(DepartmentEntity entity)
         {
-            context.Departments.Add(entity);
-            context.SaveChanges();
+            string commandText = "INSERT INTO [Departments] (Id, Name, Head, Phone, Email) VALUES(@id, @name, @head, @phone, @email)";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", entity.Id);
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@head", entity.Head);
+                command.Parameters.AddWithValue("@phone", entity.Phone);
+                command.Parameters.AddWithValue("@email", entity.Email);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public void Delete(DepartmentEntity entity)
         {
-            context.Departments.Remove(entity);
-            context.SaveChanges();
+            string commandText = "DELETE FROM [Departments] WHERE Id = @id, Name = @name, Head =  @head, Phone = @phone, Email = @email";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", entity.Id);
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@head", entity.Head);
+                command.Parameters.AddWithValue("@phone", entity.Phone);
+                command.Parameters.AddWithValue("@email", entity.Email);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public DepartmentEntity Get(int id)
         {
-            return context.Departments.Find(id);
+            string commandText = "SELECT * FROM [Departments] WHERE Id = @id";
+            DepartmentEntity department = new DepartmentEntity();
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", id);
+                try
+                {
+                    command.Connection.Open();
+                    SqlDataReader sReader = command.ExecuteReader();
+                    while (sReader.Read())
+                    {
+                        department = new DepartmentEntity(Convert.ToInt32(sReader["Id"]), Convert.ToString(sReader["Name"]),
+                            Convert.ToString(sReader["Head"]), Convert.ToString(sReader["Phone"]), Convert.ToString(sReader["Email"]));
+                    }
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+            return department;
         }
 
         public List<DepartmentEntity> GetAll()
         {
-            return context.Departments.AsNoTracking().ToList();
+            List<DepartmentEntity> departmentEntities = new List<DepartmentEntity>();
+            string commandText = "SELECT * FROM [Departments]";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                try
+                {
+                    command.Connection.Open();
+                    SqlDataReader sReader = command.ExecuteReader();
+                    while (sReader.Read())
+                    {
+                        departmentEntities.Add(new DepartmentEntity(Convert.ToInt32(sReader["Id"]), Convert.ToString(sReader["Name"]),
+                            Convert.ToString(sReader["Head"]), Convert.ToString(sReader["Phone"]), Convert.ToString(sReader["Email"])));
+                    }
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+            return departmentEntities;
         }
 
         public void Update(DepartmentEntity entity)
         {
-            var department = context.Departments.Attach(entity);
-            department.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
+            string commandText = "UPDATE [Departments] SET Name = @name, Head =  @head, Phone = @phone, Email = @email WHERE Id = @id";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", entity.Id);
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@head", entity.Head);
+                command.Parameters.AddWithValue("@phone", entity.Phone);
+                command.Parameters.AddWithValue("@email", entity.Email);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
         }
     }
 }

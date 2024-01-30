@@ -14,8 +14,6 @@ namespace University.Group.Models.Faculties
         public string Head { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        //public List<GroupEntity> Groups { get; set; }
-        public ICollection<GroupEntity> Groups { get; set; }
         public DepartmentEntity()
         {
 

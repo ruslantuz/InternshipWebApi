@@ -16,14 +16,14 @@ namespace University.Group.Services.DepartmentServices
         private readonly DepartmentRepository _departmentRepository;
         private readonly GroupRepository _groupRepository;
         private IMapper mapper;
-        public DepartmentService(AppDbContext dbContext)
+        public DepartmentService()
         {
-            _departmentRepository = new DepartmentRepository(dbContext);
-            _groupRepository = new GroupRepository(dbContext);
+            _departmentRepository = new DepartmentRepository();
+            _groupRepository = new GroupRepository();
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DepartmentModel, DepartmentEntity>().ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups)).ReverseMap();//.ForMember(x => x.Groups, opt => opt.Ignore());
-                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.Department.Id)).ReverseMap();
+                cfg.CreateMap<DepartmentModel, DepartmentEntity>(MemberList.Destination).ReverseMap();  //.ForMember(x => x.Groups, opt => opt.Ignore());
+                cfg.CreateMap<GroupModel, GroupEntity>(MemberList.Destination).ReverseMap();
                 //cfg.CreateMap<GroupEntity, GroupModel>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department));
 
             });
@@ -54,7 +54,7 @@ namespace University.Group.Services.DepartmentServices
 
             foreach (GroupEntity group in groupList)
             {
-                if (group.Department.Id == department.Id)
+                if (group.DepartmentId == department.Id)
                 {
                     GroupModel groupModel = mapper.Map<GroupModel>(group);
                     groupModelList.Add(groupModel);

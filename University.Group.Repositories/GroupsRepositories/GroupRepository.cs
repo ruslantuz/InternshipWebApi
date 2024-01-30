@@ -10,44 +10,151 @@ using University.Group.Models.Faculties;
 
 namespace University.Group.Repositories.GroupsRepositories
 {
+
     public class GroupRepository : IRepository<GroupEntity>
     {
-        private readonly AppDbContext context;
+        private SqlConnection connection;
+        private string connectionString;
         public GroupRepository()
         {
-        }
-        public GroupRepository(AppDbContext context)
-        {
-            this.context = context;
+            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
         }
         public void Add(GroupEntity entity)
         {
-            context.DetachAllEntities();
-            context.Groups.Add(entity);
-            context.SaveChanges();
+            string commandText = "INSERT INTO [Groups] (Id, Name, MajorSubject, Year, StudentCount, DepartmentId) VALUES(@id, @name, @major, @year, @count, @departmentId)";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", entity.Id);
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@major", entity.MajorSubject);
+                command.Parameters.AddWithValue("@year", entity.Year);
+                command.Parameters.AddWithValue("@count", entity.StudentCount);
+                command.Parameters.AddWithValue("@departmentId", entity.DepartmentId);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public void Delete(GroupEntity entity)
         {
-            context.Groups.Remove(entity);
-            context.SaveChanges();
+            string commandText = "DELETE FROM [Groups] WHERE Id = @id, Name = @name, MajorSubject = @major, Year = @year, StudentCount = @count, DepartmentId = @departmentId)";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", entity.Id);
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@major", entity.MajorSubject);
+                command.Parameters.AddWithValue("@year", entity.Year);
+                command.Parameters.AddWithValue("@count", entity.StudentCount);
+                command.Parameters.AddWithValue("@departmentId", entity.DepartmentId);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+
         }
 
         public GroupEntity Get(int id)
         {
-            return context.Groups.Find(id);
+            string commandText = "SELECT * FROM [Groups] WHERE Id = @id";
+            GroupEntity group = new GroupEntity();
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", id);
+                try
+                {
+                    command.Connection.Open();
+                    SqlDataReader sReader = command.ExecuteReader();
+                    while (sReader.Read())
+                    {
+                        group = new GroupEntity(Convert.ToInt32(sReader["Id"]), Convert.ToString(sReader["Name"]),
+                            Convert.ToString(sReader["MajorSubject"]), Convert.ToInt32(sReader["Year"]), Convert.ToInt32(sReader["StudentCount"]),
+                            Convert.ToInt32(sReader["DepartmentId"]));
+                    }
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+            return group;
+
         }
 
         public List<GroupEntity> GetAll()
         {
-            return context.Groups.ToList();
+            List<GroupEntity> groupEntities = new List<GroupEntity>();
+            string commandText = "SELECT * FROM [Groups]";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                try
+                {
+                    command.Connection.Open();
+                    SqlDataReader sReader = command.ExecuteReader();
+                    while (sReader.Read())
+                    {
+                        groupEntities.Add(new GroupEntity(Convert.ToInt32(sReader["Id"]), Convert.ToString(sReader["Name"]),
+                            Convert.ToString(sReader["MajorSubject"]), Convert.ToInt32(sReader["Year"]), Convert.ToInt32(sReader["StudentCount"]),
+                            Convert.ToInt32(sReader["DepartmentId"])));
+                    }
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+            return groupEntities;
         }
 
         public void Update(GroupEntity entity)
         {
-            var group = context.Groups.Attach(entity);
-            group.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
+            string commandText = "UPDATE [Groups] Name = @name, MajorSubject = @major, Year = @year, StudentCount = @count, DepartmentId = @departmentId WHERE id = @id)";
+            using (connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@id", entity.Id);
+                command.Parameters.AddWithValue("@name", entity.Name);
+                command.Parameters.AddWithValue("@major", entity.MajorSubject);
+                command.Parameters.AddWithValue("@year", entity.Year);
+                command.Parameters.AddWithValue("@count", entity.StudentCount);
+                command.Parameters.AddWithValue("@departmentId", entity.DepartmentId);
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch { }
+                finally
+                {
+                    command.Connection.Close();
+                }
+            }
+
         }
     }
 }
