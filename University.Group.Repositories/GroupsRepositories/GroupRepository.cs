@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using University.Group.Models.Groups;
+using Microsoft.EntityFrameworkCore;
+using University.Group.Models.Faculties;
 
 namespace University.Group.Repositories.GroupsRepositories
 {
@@ -20,6 +22,7 @@ namespace University.Group.Repositories.GroupsRepositories
         }
         public void Add(GroupEntity entity)
         {
+            context.DetachAllEntities();
             context.Groups.Add(entity);
             context.SaveChanges();
         }

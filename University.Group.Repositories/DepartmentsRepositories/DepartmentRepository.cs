@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using University.Group.Models.Faculties;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace University.Group.Repositories.DepartmentsRepositories
 {
@@ -40,7 +40,7 @@ namespace University.Group.Repositories.DepartmentsRepositories
 
         public List<DepartmentEntity> GetAll()
         {
-            return context.Departments.ToList();
+            return context.Departments.AsNoTracking().ToList();
         }
 
         public void Update(DepartmentEntity entity)

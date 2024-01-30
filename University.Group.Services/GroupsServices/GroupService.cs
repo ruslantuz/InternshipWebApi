@@ -19,16 +19,9 @@ namespace University.Group.Services.GroupsServices
             _groupRepository = new GroupRepository(dbContext);
             var configuration = new MapperConfiguration(cfg =>
             {
-                //cfg.CreateMap<List<GroupModel>, ICollection<GroupEntity>>(MemberList.None); 
-                //cfg.CreateMap<ICollection<GroupEntity>, List<GroupModel>>(MemberList.None);
-                //cfg.CreateMap<GroupEntity, IGroupModel>();
-                //cfg.CreateMap<DepartmentEntity, DepartmentModel>().ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups)).ReverseMap();//.ForMember(x => x.Groups, opt => opt.Ignore());
-
                 cfg.CreateMap<DepartmentModel, DepartmentEntity>().ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups)).ReverseMap();//.ForMember(x => x.Groups, opt => opt.Ignore());
-                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department)).ReverseMap();
+                cfg.CreateMap<GroupModel, GroupEntity>().ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.Department.Id)).ReverseMap();
                 
-                //cfg.CreateMap<GroupEntity, GroupModel>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department));
-
             });
             
             #if DEBUG

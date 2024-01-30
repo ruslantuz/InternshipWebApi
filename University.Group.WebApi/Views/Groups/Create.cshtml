@@ -1,4 +1,4 @@
-﻿@model GroupModel
+﻿@model GroupCreateViewModel
 
 @{ 
     ViewBag.Title = "Create Group";
@@ -6,26 +6,26 @@
 
 <form asp-controller="Groups" asp-action="Create" method="post">
     <div>
-        <label asp-for="Name">Name: </label>
-        <input asp-for="Name" />
+        <label asp-for="Group.Name">Name: </label>
+        <input asp-for="Group.Name" />
     </div>
     <div>
-        <label asp-for="MajorSubject">Major Subject: </label>
-        <input asp-for="MajorSubject" />
+        <label asp-for="Group.MajorSubject">Major Subject: </label>
+        <input asp-for="Group.MajorSubject" />
     </div>
     <div>
-        <label asp-for="Year">Year: </label>
-        <input asp-for="Year" />
+        <label asp-for="Group.Year">Year: </label>
+        <input asp-for="Group.Year" />
     </div>
     <div>
-        <label asp-for="StudentCount">Student Count: </label>
-        <input asp-for="StudentCount" />
+        <label asp-for="Group.StudentCount">Student Count: </label>
+        <input asp-for="Group.StudentCount" />
     </div>
     <div>
-        <label asp-for="Department.Id">Department: </label>
-        <select asp-for="Department.Id"/>
+        <label asp-for="DepartmentId">Department: </label>
+        <select asp-for="DepartmentId" asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name"))"></select>
     </div>
     <div>
-        <button type="submit">Create</button>
+        <input type="submit">
     </div>
 </form>

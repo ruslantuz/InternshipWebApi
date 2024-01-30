@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using University.Group.Models.Faculties;
 using University.Group.Models.Groups;
 using University.Group.Services;
+using University.Group.WebApi.ViewModels.Groups;
 
 namespace University.Group.WebApi.Controllers
 {
@@ -38,11 +40,16 @@ namespace University.Group.WebApi.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Departments = _departmentService.GetAll();
             return View();
         }
+        [Route("create/")]
         [HttpPost]
-        public IActionResult Create(GroupModel group)
+        public IActionResult Create(GroupCreateViewModel groupCreate)
         {
+            GroupModel group = groupCreate.Group;
+            group.Id = null;
+            group.Department = _departmentService.Get(groupCreate.DepartmentId);
             _groupService.Add(group);
             return RedirectToAction("GroupInfo", group.Id);
         }
