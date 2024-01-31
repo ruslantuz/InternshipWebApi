@@ -24,5 +24,27 @@ namespace University.Group.WebApi.Controllers
             List<DepartmentModel> departmentList = _departmentService.GetAll();
             return View(departmentList);
         }
+        [Route("create")]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [Route("create")]
+        [HttpPost]
+        public RedirectToActionResult Create(DepartmentModel departmentCreate)
+        {
+            _departmentService.Add(departmentCreate);
+            return RedirectToAction("Index");
+        }
+        [Route("")]
+        [HttpPost]
+        public RedirectToActionResult Delete(int departmentId)
+        {
+            DepartmentModel departmentDelete = _departmentService.Get(departmentId);
+            _departmentService.Delete(departmentDelete);
+            return RedirectToAction("Index");
+        }
+
     }
 }

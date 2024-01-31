@@ -40,19 +40,24 @@ namespace University.Group.WebApi.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            //ViewBag.Departments = _departmentService.GetAll();
-            //GroupCreateViewModel groupCreate;
             ViewBag.Departments = _departmentService.GetAll();
             return View();
         }
-        [Route("create/")]
+        [Route("create")]
         [HttpPost]
         public RedirectToActionResult Create(GroupCreateViewModel groupCreate)
         {
             GroupModel group = groupCreate.Group;
-            group.Id = _groupService.GetAll().Last().Id + 1;
             group.Department = _departmentService.Get(groupCreate.DepartmentId);
             _groupService.Add(group);
+            return RedirectToAction("Index");
+        }
+        [Route("[controller]/")]
+        [HttpPost]
+        public RedirectToActionResult Delete(int groupId)
+        {
+            GroupModel groupDelete = _groupService.Get(groupId);
+            _groupService.Delete(groupDelete);
             return RedirectToAction("Index");
         }
     }

@@ -15,7 +15,7 @@ namespace University.Group.Services.DepartmentServices
     {
         private readonly DepartmentRepository _departmentRepository;
         private readonly GroupRepository _groupRepository;
-        private IMapper mapper;
+        private readonly IMapper mapper;
         public DepartmentService()
         {
             _departmentRepository = new DepartmentRepository();
@@ -45,6 +45,13 @@ namespace University.Group.Services.DepartmentServices
             _departmentRepository.Add(departmentEntity);
         }
 
+        public void Delete(DepartmentModel department)
+        {
+            DepartmentEntity departmentEntity = mapper.Map<DepartmentEntity>(department);
+            _departmentRepository.Delete(departmentEntity);
+
+        }
+
         public DepartmentModel Get(int id)
         {
             DepartmentModel department = mapper.Map<DepartmentModel>(_departmentRepository.Get(id));
@@ -67,20 +74,19 @@ namespace University.Group.Services.DepartmentServices
         public List<DepartmentModel> GetAll()
         {
             List<DepartmentModel> departmentList = mapper.Map<List<DepartmentModel>>(_departmentRepository.GetAll());
-            List<GroupEntity> groupList = _groupRepository.GetAll();
+            //List<GroupEntity> groupList = _groupRepository.GetAll();
+            List<GroupModel> groupModelList = mapper.Map<List<GroupModel>>(_groupRepository.GetAll()); //new List<GroupModel>();
 
-            List<GroupModel> groupModelList = new List<GroupModel>();
+
 
             foreach (DepartmentModel department in departmentList)
             {
-                foreach (GroupEntity group in groupList)
+                foreach (GroupModel group in groupModelList)
                 {
-                    if (group.DepartmentId == department.Id)
+                    if (group.Department.Id == department.Id)
                     {
-                        GroupModel groupModel = mapper.Map<GroupModel>(group);
-                        groupModelList.Add(groupModel);
+                        department.Groups.Add(group);
                     }
-                    department.Groups = groupModelList;
                 }
             }
             return departmentList;

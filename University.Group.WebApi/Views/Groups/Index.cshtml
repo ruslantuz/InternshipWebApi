@@ -10,18 +10,27 @@
             <th>Major Subject</th>
             <th>Year</th>
             <th>Student count</th>
+            <th>Department</th>
         </tr>
     </thead>
     <tbody>
         @foreach (GroupModel group in @Model)
         {
-            <tr>
-                <td>@group.Id</td>
-                <td>@group.Name</td>
-                <td>@group.MajorSubject</td>
-                <td>@group.Year</td>
-                <td>@group.StudentCount</td>
-            </tr>
+        <tr>
+            <td>@group.Id</td>
+            <td>@group.Name</td>
+            <td>@group.MajorSubject</td>
+            <td>@group.Year</td>
+            <td>@group.StudentCount</td>
+            <td>@group.Department.Name</td>
+            <td>
+                <form asp-controller="Groups" asp-action="Delete" method="post">
+                    <input type="hidden" name="groupId" value="@group.Id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
+<a class="btn btn-primary" asp-action="Create">Add New</a>

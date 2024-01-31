@@ -36,9 +36,6 @@ namespace University.Group.WebApi
         {
             services.AddControllers();
             services.AddMvc();
-            services.AddDbContextPool<AppDbContext>
-                (options => options.UseSqlServer(Configuration.GetConnectionString("InternshipDBConnection"), b => b.MigrationsAssembly("University.Group.WebApi")));
-
             services.AddScoped<IService<GroupModel>, GroupService>();
             services.AddScoped<IService<DepartmentModel>, DepartmentService>();
 
@@ -63,7 +60,10 @@ namespace University.Group.WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
 

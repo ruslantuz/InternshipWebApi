@@ -7,7 +7,7 @@ namespace University.Group.Services
     {
         void Add(T entity) { }
         //void Update(T entity);
-        //void Delete(T entity);
+        void Delete(T entity);
         T Get(int id);
         List<T> GetAll();
     }

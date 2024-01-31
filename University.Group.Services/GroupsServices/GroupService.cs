@@ -6,17 +6,19 @@ using AutoMapper;
 using University.Group.Repositories.GroupsRepositories;
 using University.Group.Models.Faculties;
 using University.Group.Repositories;
-
+using University.Group.Repositories.DepartmentsRepositories;
 
 namespace University.Group.Services.GroupsServices
 {
     public class GroupService : IService<GroupModel>
     {
         private readonly GroupRepository _groupRepository;
-        private IMapper mapper;
+        private readonly DepartmentRepository _departmentRepository;
+        private readonly IMapper mapper;
         public GroupService()
         {
             _groupRepository = new GroupRepository();
+            _departmentRepository = new DepartmentRepository();
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<DepartmentModel, DepartmentEntity>(MemberList.Destination).ReverseMap();
@@ -40,10 +42,18 @@ namespace University.Group.Services.GroupsServices
             _groupRepository.Add(groupEntity);
         }
 
+        public void Delete(GroupModel group)
+        {
+            GroupEntity groupEntity = mapper.Map<GroupEntity>(group);
+            groupEntity.DepartmentId = group.Department.Id;
+            _groupRepository.Delete(groupEntity);
+        }
 
         public GroupModel Get(int id)
         {
-            GroupModel group = mapper.Map<GroupModel>(_groupRepository.Get(id));
+            GroupEntity groupEntity = _groupRepository.Get(id);
+            GroupModel group = mapper.Map<GroupModel>(groupEntity);
+            group.Department = mapper.Map<DepartmentModel>(_departmentRepository.Get(groupEntity.DepartmentId));
             return group;
         }
 
@@ -52,7 +62,9 @@ namespace University.Group.Services.GroupsServices
             List<GroupEntity> groupEntityList = _groupRepository.GetAll();
             List<GroupModel> groupList = new List<GroupModel>();
             foreach (GroupEntity groupEntity in groupEntityList) {
-                groupList.Add(mapper.Map<GroupModel>(groupEntity));
+                GroupModel group = mapper.Map<GroupModel>(groupEntity);
+                group.Department = mapper.Map<DepartmentModel>(_departmentRepository.Get(groupEntity.DepartmentId));
+                groupList.Add(group);
             };
             return groupList;
         }

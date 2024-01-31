@@ -12,21 +12,19 @@ namespace University.Group.Repositories.DepartmentsRepositories
     public class DepartmentRepository : IRepository<DepartmentEntity>
     {
         private SqlConnection connection;
-        private string connectionString;
+        private readonly string connectionString;
         public DepartmentRepository()
         {
             connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
-
         }
 
         public void Add(DepartmentEntity entity)
         {
-            string commandText = "INSERT INTO [Departments] (Id, Name, Head, Phone, Email) VALUES(@id, @name, @head, @phone, @email)";
+            string commandText = "INSERT INTO [Departments] (Name, Head, Phone, Email) VALUES(@name, @head, @phone, @email)";
             using (connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
                 command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@id", entity.Id);
                 command.Parameters.AddWithValue("@name", entity.Name);
                 command.Parameters.AddWithValue("@head", entity.Head);
                 command.Parameters.AddWithValue("@phone", entity.Phone);
@@ -46,16 +44,12 @@ namespace University.Group.Repositories.DepartmentsRepositories
 
         public void Delete(DepartmentEntity entity)
         {
-            string commandText = "DELETE FROM [Departments] WHERE Id = @id, Name = @name, Head =  @head, Phone = @phone, Email = @email";
+            string commandText = "DELETE FROM [Departments] WHERE Id = @id;";
             using (connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", entity.Id);
-                command.Parameters.AddWithValue("@name", entity.Name);
-                command.Parameters.AddWithValue("@head", entity.Head);
-                command.Parameters.AddWithValue("@phone", entity.Phone);
-                command.Parameters.AddWithValue("@email", entity.Email);
                 try
                 {
                     command.Connection.Open();

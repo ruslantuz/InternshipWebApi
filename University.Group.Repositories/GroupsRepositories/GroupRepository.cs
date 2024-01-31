@@ -14,19 +14,18 @@ namespace University.Group.Repositories.GroupsRepositories
     public class GroupRepository : IRepository<GroupEntity>
     {
         private SqlConnection connection;
-        private string connectionString;
+        private readonly string connectionString;
         public GroupRepository()
         {
             connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
         }
         public void Add(GroupEntity entity)
         {
-            string commandText = "INSERT INTO [Groups] (Id, Name, MajorSubject, Year, StudentCount, DepartmentId) VALUES(@id, @name, @major, @year, @count, @departmentId)";
+            string commandText = "INSERT INTO [Groups] (Name, MajorSubject, Year, StudentCount, DepartmentId) VALUES(@name, @major, @year, @count, @departmentId)";
             using (connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
                 command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@id", entity.Id);
                 command.Parameters.AddWithValue("@name", entity.Name);
                 command.Parameters.AddWithValue("@major", entity.MajorSubject);
                 command.Parameters.AddWithValue("@year", entity.Year);
@@ -47,17 +46,12 @@ namespace University.Group.Repositories.GroupsRepositories
 
         public void Delete(GroupEntity entity)
         {
-            string commandText = "DELETE FROM [Groups] WHERE Id = @id, Name = @name, MajorSubject = @major, Year = @year, StudentCount = @count, DepartmentId = @departmentId)";
+            string commandText = "DELETE FROM [Groups] WHERE Id = @id;";
             using (connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", entity.Id);
-                command.Parameters.AddWithValue("@name", entity.Name);
-                command.Parameters.AddWithValue("@major", entity.MajorSubject);
-                command.Parameters.AddWithValue("@year", entity.Year);
-                command.Parameters.AddWithValue("@count", entity.StudentCount);
-                command.Parameters.AddWithValue("@departmentId", entity.DepartmentId);
                 try
                 {
                     command.Connection.Open();

@@ -1,0 +1,27 @@
+﻿@model DepartmentModel
+
+@{ 
+    ViewBag.Title = "Create Department";
+}
+
+<form asp-controller="Departments" asp-action="Create" method="post">
+    <div>
+        <label asp-for="Name">Name: </label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="Head">Head: </label>
+        <input asp-for="Head" />
+    </div>
+    <div>
+        <label asp-for="Phone">Phone: </label>
+        <input asp-for="Phone" />
+    </div>
+    <div>
+        <label asp-for="Email">Email: </label>
+        <input asp-for="Email" type="email"/>
+    </div>
+    <div>
+        <input type="submit">
+    </div>
+</form>

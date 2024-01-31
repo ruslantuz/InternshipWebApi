@@ -10,7 +10,7 @@ namespace University.Group.Models.Faculties
         public string Head { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public List<GroupModel> Groups { get; set; }
+        public List<GroupModel> Groups { get; set; } = new List<GroupModel>();
         public DepartmentModel()
         {
 
