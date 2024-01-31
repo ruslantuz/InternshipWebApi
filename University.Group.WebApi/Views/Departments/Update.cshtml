@@ -1,0 +1,28 @@
+﻿@model DepartmentModel
+
+@{ 
+    ViewBag.Title = "Update Department";
+}
+
+<form asp-controller="Departments" asp-action="Update" method="post">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <div>
+        <label asp-for="Name">Name: </label>
+        <input value="@Model.Name" asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="Head">Head: </label>
+        <input value="@Model.Head" asp-for="Head" />
+    </div>
+    <div>
+        <label asp-for="Phone">Phone: </label>
+        <input value="@Model.Phone" asp-for="Phone" />
+    </div>
+    <div>
+        <label asp-for="Email">Email: </label>
+        <input value="@Model.Email" asp-for="Email" type="email" />
+    </div>
+    <div>
+        <input type="submit">
+    </div>
+</form>

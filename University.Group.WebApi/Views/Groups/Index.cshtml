@@ -24,10 +24,12 @@
             <td>@group.StudentCount</td>
             <td>@group.Department.Name</td>
             <td>
+                <a class="btn btn-primary" asp-action="Update" asp-route-id="@group.Id">Edit</a>
                 <form asp-controller="Groups" asp-action="Delete" method="post">
                     <input type="hidden" name="groupId" value="@group.Id" />
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
+
             </td>
         </tr>
         }

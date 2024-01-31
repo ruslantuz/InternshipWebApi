@@ -22,10 +22,8 @@ namespace University.Group.Services.DepartmentServices
             _groupRepository = new GroupRepository();
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DepartmentModel, DepartmentEntity>(MemberList.Destination).ReverseMap();  //.ForMember(x => x.Groups, opt => opt.Ignore());
+                cfg.CreateMap<DepartmentModel, DepartmentEntity>(MemberList.Destination).ReverseMap();
                 cfg.CreateMap<GroupModel, GroupEntity>(MemberList.Destination).ReverseMap();
-                //cfg.CreateMap<GroupEntity, GroupModel>().ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department));
-
             });
             // only during development
             #if DEBUG
@@ -74,11 +72,7 @@ namespace University.Group.Services.DepartmentServices
         public List<DepartmentModel> GetAll()
         {
             List<DepartmentModel> departmentList = mapper.Map<List<DepartmentModel>>(_departmentRepository.GetAll());
-            //List<GroupEntity> groupList = _groupRepository.GetAll();
             List<GroupModel> groupModelList = mapper.Map<List<GroupModel>>(_groupRepository.GetAll()); //new List<GroupModel>();
-
-
-
             foreach (DepartmentModel department in departmentList)
             {
                 foreach (GroupModel group in groupModelList)
@@ -90,6 +84,13 @@ namespace University.Group.Services.DepartmentServices
                 }
             }
             return departmentList;
+        }
+
+        public void Update(DepartmentModel department)
+        {
+            DepartmentEntity departmentEntity = mapper.Map<DepartmentEntity>(department);
+            _departmentRepository.Update(departmentEntity);
+
         }
     }
 }

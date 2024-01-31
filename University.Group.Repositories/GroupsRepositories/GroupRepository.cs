@@ -126,7 +126,7 @@ namespace University.Group.Repositories.GroupsRepositories
 
         public void Update(GroupEntity entity)
         {
-            string commandText = "UPDATE [Groups] Name = @name, MajorSubject = @major, Year = @year, StudentCount = @count, DepartmentId = @departmentId WHERE id = @id)";
+            string commandText = "UPDATE [Groups] SET Name = @name, MajorSubject = @major, Year = @year, StudentCount = @count, DepartmentId = @departmentId WHERE Id = @id";
             using (connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);

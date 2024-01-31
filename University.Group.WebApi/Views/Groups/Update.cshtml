@@ -1,0 +1,32 @@
+﻿@model GroupCreateViewModel
+
+@{ 
+    ViewBag.Title = "Update Group";
+}
+
+<form asp-controller="Groups" asp-action="Update" method="post">
+    <input type="hidden" asp-for="Group.Id" value="@Model.Group.Id" />
+    <div>
+        <label asp-for="Group.Name">Name: </label>
+        <input value="@Model.Group.Name" asp-for="Group.Name" />
+    </div>
+    <div>
+        <label asp-for="Group.MajorSubject">Major Subject: </label>
+        <input value="@Model.Group.MajorSubject" asp-for="Group.MajorSubject" />
+    </div>
+    <div>
+        <label asp-for="Group.Year">Year: </label>
+        <input value="@Model.Group.Year" asp-for="Group.Year" />
+    </div>
+    <div>
+        <label asp-for="Group.StudentCount">Student Count: </label>
+        <input value="@Model.Group.StudentCount" asp-for="Group.StudentCount" />
+    </div>
+    <div>
+        <label asp-for="DepartmentId">Department: </label>
+        <select asp-for="DepartmentId" asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name", Model.DepartmentId))"></select>
+    </div>
+    <div>
+        <input type="submit">
+    </div>
+</form>

@@ -25,7 +25,7 @@ namespace University.Group.WebApi.Controllers
         }
         public IActionResult Index()
         {
-            UniversityModel college = new UniversityModel("KEP", "Berehovskyi", "3809911111", "@kep.nung.edu.ua");
+            UniversityModel college = new UniversityModel("KEP", "Berehovskyi", "0342783046", "@kep.nung.edu.ua");
             college.Departments = _departmentService.GetAll();
             return View(college);
         }

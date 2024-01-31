@@ -1,3 +1,15 @@
 ﻿.navbar-brand{
     min-width: 150px;
 }
+input, select{
+    width: 300px;
+}
+label{
+    min-width: 200px;
+}
+input, label{
+    margin: 10px 0;
+}
+.table .btn{
+    width: 100% !important;
+}

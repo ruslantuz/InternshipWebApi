@@ -35,7 +35,7 @@ namespace University.Group.Services.GroupsServices
         {
             _groupRepository = groupRepository;
         }
-        public void Add(GroupModel group)//, DepartmentModel department)
+        public void Add(GroupModel group)
         {
             GroupEntity groupEntity = mapper.Map<GroupEntity>(group);
             groupEntity.DepartmentId = group.Department.Id; 
@@ -67,6 +67,13 @@ namespace University.Group.Services.GroupsServices
                 groupList.Add(group);
             };
             return groupList;
+        }
+
+        public void Update(GroupModel group)
+        {
+            GroupEntity groupEntity = mapper.Map<GroupEntity>(group);
+            groupEntity.DepartmentId = group.Department.Id;
+            _groupRepository.Update(groupEntity);
         }
     }
 }

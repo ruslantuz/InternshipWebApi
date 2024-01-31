@@ -26,16 +26,24 @@ namespace University.Group.WebApi.Controllers
             List<GroupModel> groupList = _groupService.GetAll();
             return View(groupList);
         }
-        [HttpGet("{id:int}")]
-        public IActionResult GroupInfo(int id)
+        [Route("update/{id:int}")]
+        public IActionResult Update(int id)
         {
-            GroupModel group = _groupService.Get(id); //do try catch for invalid id
-            List<GroupModel> groupList = new List<GroupModel>();
-            groupList.Add(group);
-
-            return View("~/Views/Groups/Index.cshtml", groupList);
+            GroupCreateViewModel editGroup = new GroupCreateViewModel();
+            editGroup.Group = _groupService.Get(id);
+            editGroup.DepartmentId = editGroup.Group.Department.Id;
+            ViewBag.Departments = _departmentService.GetAll();
+            return View(editGroup);
         }
-
+        [Route("update/{id:int}")]
+        [HttpPost]
+        public RedirectToActionResult Update(GroupCreateViewModel groupUpdate)
+        {
+            GroupModel group = groupUpdate.Group;
+            group.Department = _departmentService.Get(groupUpdate.DepartmentId);
+            _groupService.Update(group);
+            return RedirectToAction("Index");
+        }
         [Route ("create")]
         [HttpGet]
         public IActionResult Create()

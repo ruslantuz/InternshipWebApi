@@ -29,6 +29,7 @@
                     }
                 </td>
                 <td>
+                    <a class="btn btn-primary" asp-action="Update" asp-route-id="@department.Id">Edit</a>
                     <form asp-controller="Departments" asp-action="Delete" method="post">
                         <input type="hidden" name="departmentId" value="@department.Id" />
                         <button type="submit" class="btn btn-danger">Delete</button>
