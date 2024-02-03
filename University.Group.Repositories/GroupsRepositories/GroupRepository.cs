@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using University.Group.Models.Groups;
-using Microsoft.EntityFrameworkCore;
-using University.Group.Models.Faculties;
 
 namespace University.Group.Repositories.GroupsRepositories
 {
-
     public class GroupRepository : IRepository<GroupEntity>
     {
-        private SqlConnection connection;
-        private readonly string connectionString;
+        private SqlConnection _connection;
+        private readonly string _connectionString;
+
         public GroupRepository()
         {
-            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
         }
+
+        public GroupRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        
         public void Add(GroupEntity entity)
         {
             string commandText = "INSERT INTO [Groups] (Name, MajorSubject, Year, StudentCount, DepartmentId) VALUES(@name, @major, @year, @count, @departmentId)";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@name", entity.Name);
                 command.Parameters.AddWithValue("@major", entity.MajorSubject);
@@ -47,9 +48,9 @@ namespace University.Group.Repositories.GroupsRepositories
         public void Delete(GroupEntity entity)
         {
             string commandText = "DELETE FROM [Groups] WHERE Id = @id;";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", entity.Id);
                 try
@@ -70,9 +71,9 @@ namespace University.Group.Repositories.GroupsRepositories
         {
             string commandText = "SELECT * FROM [Groups] WHERE Id = @id";
             GroupEntity group = new GroupEntity();
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", id);
                 try
@@ -100,9 +101,9 @@ namespace University.Group.Repositories.GroupsRepositories
         {
             List<GroupEntity> groupEntities = new List<GroupEntity>();
             string commandText = "SELECT * FROM [Groups]";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 try
                 {
@@ -127,9 +128,9 @@ namespace University.Group.Repositories.GroupsRepositories
         public void Update(GroupEntity entity)
         {
             string commandText = "UPDATE [Groups] SET Name = @name, MajorSubject = @major, Year = @year, StudentCount = @count, DepartmentId = @departmentId WHERE Id = @id";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", entity.Id);
                 command.Parameters.AddWithValue("@name", entity.Name);
@@ -148,7 +149,6 @@ namespace University.Group.Repositories.GroupsRepositories
                     command.Connection.Close();
                 }
             }
-
         }
     }
 }

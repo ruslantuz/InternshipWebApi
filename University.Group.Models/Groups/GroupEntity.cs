@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using University.Group.Models.Faculties;
-
-namespace University.Group.Models.Groups
+﻿namespace University.Group.Models.Groups
 {
     public class GroupEntity
     {
@@ -13,11 +8,12 @@ namespace University.Group.Models.Groups
         public int Year { get; set; }
         public int StudentCount { get; set; }
         public int DepartmentId { get; set; }
-        //public DepartmentEntity Department { get; set; }
+
         public GroupEntity()
         {
 
         }
+        
         public GroupEntity(int groupId, string groupName, string major, int year, int count, int departmentId)
         {
             Id = groupId;

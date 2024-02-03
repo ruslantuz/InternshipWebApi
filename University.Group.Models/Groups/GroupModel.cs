@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using University.Group.Models.Faculties;
+﻿using University.Group.Models.Faculties;
 
 namespace University.Group.Models.Groups
 {
@@ -14,10 +10,12 @@ namespace University.Group.Models.Groups
         public int Year { get; set; }
         public int StudentCount { get; set; }
         public DepartmentModel Department { get; set; }
+        
         public GroupModel()
         {
 
         }
+        
         public GroupModel(int groupId, string groupName, string major, int year, int count)
         {
             Id = groupId;

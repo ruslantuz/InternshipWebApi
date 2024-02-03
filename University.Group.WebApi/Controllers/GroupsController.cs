@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using University.Group.Models.Faculties;
 using University.Group.Models.Groups;
 using University.Group.Services;
@@ -16,16 +12,19 @@ namespace University.Group.WebApi.Controllers
     {
         private readonly IService<GroupModel> _groupService;
         private readonly IService<DepartmentModel> _departmentService;
+        
         public GroupsController(IService<GroupModel> groupService, IService<DepartmentModel> departmentService)
         {
             _groupService = groupService;
             _departmentService = departmentService;
         }
+        
         public IActionResult Index()
         {
             List<GroupModel> groupList = _groupService.GetAll();
             return View(groupList);
         }
+        
         [Route("update/{id:int}")]
         public IActionResult Update(int id)
         {
@@ -35,6 +34,7 @@ namespace University.Group.WebApi.Controllers
             ViewBag.Departments = _departmentService.GetAll();
             return View(editGroup);
         }
+        
         [Route("update/{id:int}")]
         [HttpPost]
         public RedirectToActionResult Update(GroupCreateViewModel groupUpdate)
@@ -44,6 +44,7 @@ namespace University.Group.WebApi.Controllers
             _groupService.Update(group);
             return RedirectToAction("Index");
         }
+        
         [Route ("create")]
         [HttpGet]
         public IActionResult Create()
@@ -51,6 +52,7 @@ namespace University.Group.WebApi.Controllers
             ViewBag.Departments = _departmentService.GetAll();
             return View();
         }
+        
         [Route("create")]
         [HttpPost]
         public RedirectToActionResult Create(GroupCreateViewModel groupCreate)
@@ -60,6 +62,7 @@ namespace University.Group.WebApi.Controllers
             _groupService.Add(group);
             return RedirectToAction("Index");
         }
+        
         [Route("[controller]/")]
         [HttpPost]
         public RedirectToActionResult Delete(int groupId)

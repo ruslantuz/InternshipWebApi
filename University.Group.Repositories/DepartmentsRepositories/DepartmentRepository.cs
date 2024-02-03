@@ -2,28 +2,30 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using University.Group.Models.Faculties;
-using Microsoft.EntityFrameworkCore;
 
 namespace University.Group.Repositories.DepartmentsRepositories
 {
     public class DepartmentRepository : IRepository<DepartmentEntity>
     {
-        private SqlConnection connection;
-        private readonly string connectionString;
+        private SqlConnection _connection;
+        private readonly string _connectionString;
+
         public DepartmentRepository()
         {
-            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Fork\InternshipWebApi\University.Group.Repositories\InternshipDB.mdf;Integrated Security=True";
+        }
+
+        public DepartmentRepository(string connectionString)
+        {
+            _connectionString = connectionString;
         }
 
         public void Add(DepartmentEntity entity)
         {
             string commandText = "INSERT INTO [Departments] (Name, Head, Phone, Email) VALUES(@name, @head, @phone, @email)";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@name", entity.Name);
                 command.Parameters.AddWithValue("@head", entity.Head);
@@ -45,9 +47,9 @@ namespace University.Group.Repositories.DepartmentsRepositories
         public void Delete(DepartmentEntity entity)
         {
             string commandText = "DELETE FROM [Departments] WHERE Id = @id;";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", entity.Id);
                 try
@@ -67,9 +69,9 @@ namespace University.Group.Repositories.DepartmentsRepositories
         {
             string commandText = "SELECT * FROM [Departments] WHERE Id = @id";
             DepartmentEntity department = new DepartmentEntity();
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", id);
                 try
@@ -95,9 +97,9 @@ namespace University.Group.Repositories.DepartmentsRepositories
         {
             List<DepartmentEntity> departmentEntities = new List<DepartmentEntity>();
             string commandText = "SELECT * FROM [Departments]";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 try
                 {
@@ -121,9 +123,9 @@ namespace University.Group.Repositories.DepartmentsRepositories
         public void Update(DepartmentEntity entity)
         {
             string commandText = "UPDATE [Departments] SET Name = @name, Head =  @head, Phone = @phone, Email = @email WHERE Id = @id";
-            using (connection = new SqlConnection(connectionString))
+            using (_connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand(commandText, _connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@id", entity.Id);
                 command.Parameters.AddWithValue("@name", entity.Name);

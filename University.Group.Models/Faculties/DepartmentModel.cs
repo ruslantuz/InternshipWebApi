@@ -11,10 +11,12 @@ namespace University.Group.Models.Faculties
         public string Phone { get; set; }
         public string Email { get; set; }
         public List<GroupModel> Groups { get; set; } = new List<GroupModel>();
+        
         public DepartmentModel()
         {
 
         }
+        
         public DepartmentModel(int id, string name, string head, string phone, string email)
         {
             Id = id;
@@ -23,6 +25,7 @@ namespace University.Group.Models.Faculties
             Phone = phone;
             Email = email;
         }
+        
         public override string ToString()
         {
             return Name;
